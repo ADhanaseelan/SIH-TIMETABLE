@@ -93,13 +93,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   return (
     <aside
       className={`
-        bg-gray-800 text-white h-full flex flex-col transition-all duration-300
+        bg-gray-800 text-white h-full flex flex-col  transition-all duration-300
         ${isOpen ? "w-60" : "w-0 overflow-hidden"}
         md:w-60 md:static md:overflow-visible
       `}
     >
       <h2 className="text-lg font-bold mb-6 p-4">Menu</h2>
-      <nav className="flex-1 px-4">
+      <nav className="flex-1 px-4 overflow-auto">
         {/* Dashboard (single link, not part of dropdown menus) */}
         <NavLink
           to="/timetable"
