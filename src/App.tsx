@@ -12,6 +12,7 @@ import StaffList from "./pages/staffList";
 import AddStaff from "./pages/AddStaff"
 import AddSubject from "./pages/AddSubject";
 import SubjectList from "./pages/SubjectList";
+import ViewTable from "./pages/view_table";
 const App: React.FC = () => {
   return (
     <Router>
@@ -23,6 +24,7 @@ const App: React.FC = () => {
           <Route path="addstaff" element={<AddStaff/>}/>
           <Route path="addsubject" element={<AddSubject/>}/>
           <Route path="subjectlist" element={<SubjectList/>}/>
+          <Route path="viewtable" element={<ViewTable />} />
         </Route>
 
         {/* Redirect unknown routes */}
