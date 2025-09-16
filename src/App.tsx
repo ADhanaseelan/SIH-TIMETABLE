@@ -20,11 +20,11 @@ const App: React.FC = () => {
         {/* Layout with nested routes */}
         <Route path="/" element={<Layout />}>
           <Route index element={<div>Welcome Home</div>} />
-          <Route path="staff" element={<StaffList />} />
-          <Route path="addstaff" element={<AddStaff/>}/>
-          <Route path="addsubject" element={<AddSubject/>}/>
-          <Route path="subjectlist" element={<SubjectList/>}/>
-          <Route path="viewtable" element={<ViewTable />} />
+          <Route path="/department/stafflist" element={<StaffList />} />
+          <Route path="/department/addstaff" element={<AddStaff/>}/>
+          <Route path="/subjects/addsubject" element={<AddSubject/>}/>
+          <Route path="/subjects/subjectList" element={<SubjectList/>}/>
+          <Route path="/viewtimetable/class" element={<ViewTable />} />
         </Route>
 
         {/* Redirect unknown routes */}
