@@ -13,7 +13,8 @@ const AddStaff: React.FC = () => {
       </div>
 
       {/* Form */}
-      <form className="">
+      <form >
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
         {/* Department dropdown */}
         <CustomDropdown
           label="Department"
@@ -44,15 +45,25 @@ const AddStaff: React.FC = () => {
           value={status}
           onChange={setStatus}
         />
+        
+        
+</div>
 
         {/* Submit button */}
+        <div className="flex justify-end">
         <button
           type="submit"
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className=" px-4 py-2 bg-[#D9D9D9] text-black-500 rounded hover:bg-[#D9D9c5]"
         >
           Add Staff
         </button>
+        </div>
       </form>
+
+
+      <p className="font-bold">New List</p>
+
+      
     </div>
   );
 };
