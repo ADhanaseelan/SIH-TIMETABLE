@@ -5,11 +5,10 @@ import { Outlet } from "react-router-dom";
 import { MdMenu, MdClose } from "react-icons/md";
 
 const Layout: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  );
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // ✅ Update on resize
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -21,7 +20,7 @@ const Layout: React.FC = () => {
       }
     };
 
-    handleResize();
+    handleResize(); // run once at mount
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -30,13 +29,10 @@ const Layout: React.FC = () => {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white transition-all duration-300 
-        ${
-          isMobile
-            ? `fixed top-0 left-0 h-full z-50 ${
-                isSidebarOpen ? "w-60" : "w-0"
-              }`
-            : "w-60 static h-auto"
+        className={`bg-gray-800 text-white  transition-all duration-300 
+        ${isMobile 
+          ? `fixed top-0 left-0 h-full z-50 ${isSidebarOpen ? "w-60" : "w-0"}`
+          : "w-60 static h-auto"
         }`}
       >
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
@@ -45,19 +41,16 @@ const Layout: React.FC = () => {
       {/* Overlay for mobile */}
       {isMobile && isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-gray  bg-opacity-40 z-40"
+          className="fixed inset-0 bg-black bg-opacity-40 z-40"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Main Content */}
-      <main
-        className={`flex-1 w-full overflow-auto bg-white transition-all duration-300 ${
-          !isMobile ? "" : ""
-        }`}
-      >
+      <main className="flex-1 w-full overflow-auto bg-white">
         {/* Header */}
-        <div className="flex items-center justify-between ">
+  <div className="flex items-center justify-between  mt-0 mb-0">
+          {/* Toggle only visible on mobile */}
           {isMobile && (
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -66,13 +59,13 @@ const Layout: React.FC = () => {
               {isSidebarOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
             </button>
           )}
-          <div className="flex-1 p-1">
+          <div className="flex-1 p-2">
             <Header />
           </div>
         </div>
 
         {/* Page content */}
-        <div className="pt-2 px-4 pb-4">
+  <div className="pt-2 px-4 pb-4">
           <Outlet />
         </div>
       </main>
