@@ -1,29 +1,22 @@
-import React, { type FC, useState, useEffect } from "react";
+// Sidebar.tsx
+import React, {type FC, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaUser,
-  FaCar,
   FaList,
   FaPlusSquare,
   FaClipboardList,
-  FaRoute,
-  FaTools,
-  FaGasPump,
-  FaBell,
-  FaChartBar,
-  FaShieldAlt,
 } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { BsFillTriangleFill } from "react-icons/bs";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
-interface SidebarMergedProps {
+interface SidebarProps {
   role: string;
 }
 
-const Sidebar: FC<SidebarMergedProps> = ({ role }) => {
+const Sidebar: FC<SidebarProps> = ({ role }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [pendingLabCount, setPendingLabCount] = useState(0);
 
   const isAdmin = role.toUpperCase() === "ADMIN";
@@ -38,7 +31,7 @@ const Sidebar: FC<SidebarMergedProps> = ({ role }) => {
           setPendingLabCount(data.pendingLabRequestsCount);
         }
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching lab requests:", err);
       }
     };
     fetchPendingLabCount();
@@ -47,30 +40,29 @@ const Sidebar: FC<SidebarMergedProps> = ({ role }) => {
   }, []);
 
   const toggleMenu = (menu: string) => {
-    setOpenMenus((prev) => {
-      const newState: { [key: string]: boolean } = {};
-      Object.keys(prev).forEach((key) => {
-        newState[key] = false;
-      });
-      newState[menu] = !prev[menu];
-      return newState;
-    });
+    setOpenMenus((prev) => ({
+      ...Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {} as Record<string, boolean>),
+      [menu]: !prev[menu],
+    }));
   };
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center h-[40px] w-full gap-2 px-2 py-2 rounded-xl transition-all font-poppins font-medium text-[16px] leading-[20px] tracking-[0%] ${
+    `flex items-center h-[40px] w-full gap-2 px-2 py-2 rounded-xl transition-all font-medium text-[15px] ${
       isActive
-        ? "bg-black text-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
-        : "text-black hover:bg-gray-50"
-    } max-[330px]:text-[14px] max-[330px]:h-[36px]`;
+        ? "bg-black text-white shadow-md"
+        : "text-gray-800 hover:bg-gray-100"
+    }`;
 
   const menuItemClass =
-    "flex items-center justify-between px-2 py-2 cursor-pointer text-company-color hover:text-blue-800 transition-all font-poppins font-medium text-[16px] leading-[20px] tracking-[0%] max-[330px]:text-[14px]";
+    "flex items-center justify-between px-2 py-2 cursor-pointer text-gray-800 hover:text-blue-800 transition-all font-medium text-[15px]";
 
   const getSubMenuClass = (menu: string) =>
-    `ml-4 mt-2 flex flex-col gap-1 font-medium text-[16px] leading-[20px] tracking-[0%] transition-all duration-300 overflow-hidden ${
+    `ml-4 mt-2 flex flex-col gap-1 transition-all duration-300 overflow-hidden ${
       openMenus[menu] ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
-    } max-[330px]:text-[14px]`;
+    }`;
 
   const menuData = [
     {
@@ -92,59 +84,52 @@ const Sidebar: FC<SidebarMergedProps> = ({ role }) => {
           : null,
       ].filter(Boolean),
     },
-    !isAdmin
-      ? {
-          key: "subject",
-          icon: <FaClipboardList className="w-5 h-5" />,
-          label: "Subject",
-          links: [
-            { to: "/subject/add", icon: <FaPlusSquare />, label: "Add Subject" },
-            { to: "/subject/view", icon: <FaList />, label: "View Subject" },
-          ],
-        }
-      : null,
-    !isAdmin
-      ? {
-          key: "timetable",
-          icon: <FaClipboardList className="w-5 h-5" />,
-          label: "Timetable",
-          links: [{ to: "/timetable", icon: <FaList />, label: "Timetable" }],
-        }
-      : null,
-    !isAdmin
-      ? {
-          key: "request",
-          icon: <FaClipboardList className="w-5 h-5" />,
-          label: "Request",
-          links: [
-            { to: "/request/send", icon: <FaPlusSquare />, label: "Send" },
-            { to: "/request/received", icon: <FaList />, label: "Received" },
-            {
-              to: "/request/labReceived",
-              icon: <FaClipboardList />,
-              label: "Lab Received",
-              badge: pendingLabCount,
-            },
-          ],
-        }
-      : null,
+    !isAdmin && {
+      key: "subject",
+      icon: <FaClipboardList className="w-5 h-5" />,
+      label: "Subject",
+      links: [
+        { to: "/subject/add", icon: <FaPlusSquare />, label: "Add Subject" },
+        { to: "/subject/view", icon: <FaList />, label: "View Subject" },
+      ],
+    },
+    !isAdmin && {
+      key: "timetable",
+      icon: <FaClipboardList className="w-5 h-5" />,
+      label: "Timetable",
+      links: [{ to: "/timetable", icon: <FaList />, label: "Timetable" }],
+    },
+    !isAdmin && {
+      key: "request",
+      icon: <FaClipboardList className="w-5 h-5" />,
+      label: "Request",
+      links: [
+        { to: "/request/send", icon: <FaPlusSquare />, label: "Send" },
+        { to: "/request/received", icon: <FaList />, label: "Received" },
+        {
+          to: "/request/labReceived",
+          icon: <FaClipboardList />,
+          label: "Lab Received",
+          badge: pendingLabCount,
+        },
+      ],
+    },
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-gray-50 z-500">
-      {/* Top Header */}
-      <div className="fixed top-0 left-0 right-0 w-60 z-50 h-16 bg-company-color flex items-center px-4 max-[330px]:w-[200px]">
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Header (Mobile) */}
+      <div className="fixed top-0 left-0 right-0 h-16 bg-black flex items-center px-4 xl:hidden z-50">
         <button
           onClick={() => setIsOpen(true)}
-          className={`text-white p-2 xl:hidden mr-4 cursor-pointer ${
-            isOpen ? "hidden" : "block"
-          }`}
+          className={`text-white p-2 ${isOpen ? "hidden" : "block"}`}
         >
           <BsFillTriangleFill className="w-5 h-5" />
         </button>
-        <span className="text-white font-semibold">App Name</span>
+        <span className="text-white font-semibold ml-2">App Name</span>
       </div>
 
+      {/* Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black opacity-40 z-30 xl:hidden"
@@ -154,20 +139,20 @@ const Sidebar: FC<SidebarMergedProps> = ({ role }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-60 bg-white shadow-md px-4 py-6 pt-20 z-40 transition-transform duration-300 ease-in-out max-[330px]:w-[200px] ${
+        className={`fixed top-0 left-0 h-full w-60 bg-white shadow-md px-4 py-6 pt-20 z-40 transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } xl:translate-x-0 xl:static xl:block overflow-hidden`}
+        } xl:translate-x-0 xl:static`}
       >
-        <nav className="flex flex-col gap-4 text-sm font-medium max-[330px]:text-[14px]">
-          {menuData.map(({ key, icon, label, links, ...rest }: any) => (
+        <nav className="flex flex-col gap-4">
+          {menuData.map(({ key, icon, label, links }: any) => (
             <div key={key}>
               <div className={menuItemClass} onClick={() => toggleMenu(key)}>
-                <span className="flex items-center gap-2 max-[330px]:gap-1">
+                <span className="flex items-center gap-2">
                   {icon} {label}
                 </span>
                 {links && links.length > 0 && (
                   <BsFillTriangleFill
-                    className={`transition-transform duration-300 w-[13px] h-[10px] ${
+                    className={`transition-transform duration-300 w-3 h-3 ${
                       openMenus[key] ? "" : "rotate-180"
                     }`}
                   />
