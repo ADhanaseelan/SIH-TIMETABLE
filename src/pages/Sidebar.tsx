@@ -9,58 +9,32 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   return (
     <aside
-      className={`h-full flex flex-col p-4 bg-gray-800 text-white transition-all duration-300 ${
-        isOpen ? "w-60" : "w-0 overflow-hidden"
-      }`}
+      className={`
+        bg-gray-800 text-white h-full  flex flex-col transition-all duration-300
+        ${isOpen ? "w-60" : "w-0 overflow-hidden"}
+        md:w-60 md:static md:overflow-visible
+      `}
     >
-      <h2 className="text-lg font-bold mb-6">Menu</h2>
-      <nav className="flex-1">
+      <h2 className="text-lg font-bold mb-6 p-4">Menu</h2>
+      <nav className="flex-1 px-4">
         <ul className="space-y-3">
-          <li>
-            <Link
-              to="/"
-              className="hover:text-gray-300 block"
-              onClick={() => setIsOpen && setIsOpen(false)}
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/staff"
-              className="hover:text-gray-300 block"
-              onClick={() => setIsOpen && setIsOpen(false)}
-            >
-              Staff List
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/addstaff"
-              className="hover:text-gray-300 block"
-              onClick={() => setIsOpen && setIsOpen(false)}
-            >
-              Add Staff
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/addsubject"
-              className="hover:text-gray-300 block"
-              onClick={() => setIsOpen && setIsOpen(false)}
-            >
-              Add Subject
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/subjectlist"
-              className="hover:text-gray-300 block"
-              onClick={() => setIsOpen && setIsOpen(false)}
-            >
-              Subject List
-            </Link>
-          </li>
+          {[
+            { name: "Home", path: "/" },
+            { name: "Staff List", path: "/staff" },
+            { name: "Add Staff", path: "/addstaff" },
+            { name: "Add Subject", path: "/addsubject" },
+            { name: "Subject List", path: "/subjectlist" },
+          ].map((item) => (
+            <li key={item.path}>
+              <Link
+                to={item.path}
+                className="block hover:text-gray-300"
+                onClick={() => setIsOpen && setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>
