@@ -14,11 +14,7 @@ const Layout: React.FC = () => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (!mobile) {
-        setIsSidebarOpen(true); // always open on desktop
-      } else {
-        setIsSidebarOpen(false); // closed by default on mobile
-      }
+      setIsSidebarOpen(!mobile); // open on desktop, closed on mobile
     };
 
     handleResize();
@@ -29,35 +25,26 @@ const Layout: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <div
-        className={`bg-gray-800 text-white transition-all duration-300 
-        ${
-          isMobile
-            ? `fixed top-0 left-0 h-full z-50 ${
-                isSidebarOpen ? "w-60" : "w-0"
-              }`
-            : "w-60 static h-auto"
-        }`}
-      >
-        <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      </div>
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Overlay for mobile */}
       {isMobile && isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-gray  bg-opacity-40 z-40"
+          className="fixed inset-0 bg-black bg-opacity-40 z-40"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Main Content */}
       <main
-        className={`flex-1 w-full overflow-auto bg-white transition-all duration-300 ${
-          !isMobile ? "" : ""
+        className={`flex-1 transition-all duration-300 ${
+          isMobile
+            ? "ml-0"
+            : "ml-60" // push main content when sidebar is open on desktop
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between p-4 bg-white shadow">
           {isMobile && (
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -66,13 +53,13 @@ const Layout: React.FC = () => {
               {isSidebarOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
             </button>
           )}
-          <div className="flex-1 p-1">
+          <div className="flex-1">
             <Header />
           </div>
         </div>
 
         {/* Page content */}
-        <div className="pt-2 px-4 pb-4">
+        <div className="p-4">
           <Outlet />
         </div>
       </main>
