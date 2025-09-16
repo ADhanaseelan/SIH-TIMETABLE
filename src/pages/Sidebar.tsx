@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  FaUser,
-  FaList,
-  FaPlusSquare,
-  FaCar,
-  FaRoute,
-  FaClipboardList,
-  FaTools,
-  FaBell,
-  FaChartBar,
-} from "react-icons/fa";
+
 import { BsFillTriangleFill } from "react-icons/bs";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { GrWorkshop } from "react-icons/gr";
+import { SiGoogleclassroom } from "react-icons/si";
+import { TbTablePlus } from "react-icons/tb";
+import { BiTable } from "react-icons/bi";
+import { FaPaperPlane } from "react-icons/fa";
+import { IoSendSharp } from "react-icons/io5";
+import { GiDesk } from "react-icons/gi";
+import { MdMoveToInbox } from "react-icons/md";
+import { FaLaptop } from "react-icons/fa";
+import { MdMenuBook } from "react-icons/md";
+import { FaUsersViewfinder } from "react-icons/fa6";
+import { BiSolidBookAdd } from "react-icons/bi";
+import { MdPersonAdd } from "react-icons/md";
+import { FaBookReader } from "react-icons/fa";
+import { FaBuildingColumns } from "react-icons/fa6";
+import { FaUsersRectangle } from "react-icons/fa6";
+import { GrSchedules } from "react-icons/gr";
+
+
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -30,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 px-2 py-2 rounded-lg transition-all ${
-      isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+      isActive ? "bg-gray-600 text-white" : "text-gray-300 hover:bg-gray-700"
     }`;
 
   const menuItemClass =
@@ -45,48 +55,48 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const menus = [
     {
       key: "department",
-      icon: <FaUser className="w-5 h-5" />,
+      icon: <FaBuildingColumns className="w-5 h-5" />,
       label: "Department",
       links: [
-        { to: "/department/addstaff", icon: <FaList />, label: "Add Staff" },
-        { to: "/department/stafflist", icon: <FaPlusSquare />, label: "Staff List" },
+        { to: "/department/addstaff", icon: <MdPersonAdd />, label: "Add Staff" },
+        { to: "/department/stafflist", icon: <FaUsersRectangle />, label: "Staff List" },
       ],
     },
     {
       key: "subject",
-      icon: <FaCar className="w-5 h-5" />,
+      icon: <MdMenuBook className="w-5 h-5" />,
       label: "Subject",
       links: [
-        { to: "/subjects/addsubject", icon: <FaPlusSquare />, label: "Add Subject" },
-        { to: "/subjects/subjectlist", icon: <FaList />, label: "View Subject" },
+        { to: "/subjects/addsubject", icon: <BiSolidBookAdd />, label: "Add Subject" },
+        { to: "/subjects/subjectlist", icon: <FaBookReader />, label: "View Subject" },
       ],
     },
     {
       key: "request",
-      icon: <FaRoute className="w-5 h-5" />,
+      icon: <FaPaperPlane className="w-5 h-5" />,
       label: "Request",
       links: [
-        { to: "/request/send", icon: <FaList />, label: "Send Request" },
-        { to: "/request/receive", icon: <FaPlusSquare />, label: "Receive Request" },
-        { to: "/request/lab", icon: <FaClipboardList />, label: "Lab Request" },
+        { to: "/request/send", icon: <IoSendSharp/>, label: "Send Request" },
+        { to: "/request/receive", icon: <MdMoveToInbox />, label: "Receive Request" },
+        { to: "/request/lab", icon: <FaLaptop  />, label: "Lab Request" },
       ],
     },
     {
       key: "viewtable",
-      icon: <FaBell className="w-5 h-5" />,
+      icon: <TbTablePlus className="w-5 h-5" />,
       label: "View Table",
       links: [
-        { to: "/viewtimetable/class", icon: <FaList />, label: "Class Timetable" },
-        { to: "/viewtimetable/staff", icon: <FaList />, label: "Staff Timetable" },
-        { to: "/viewtimetable/overall", icon: <FaList />, label: "Overall Timetable" },
-        { to: "/viewtimetable/lab", icon: <FaList />, label: "Lab Timetable" },
+        { to: "/viewtimetable/class", icon: <SiGoogleclassroom />, label: "Class Timetable" },
+        { to: "/viewtimetable/staff", icon: <FaChalkboardTeacher />, label: "Staff Timetable" },
+        { to: "/viewtimetable/overall", icon: <BiTable />, label: "Overall Timetable" },
+        { to: "/viewtimetable/lab", icon: <GiDesk />, label: "Lab Timetable" },
       ],
     },
     {
       key: "lab",
-      icon: <FaChartBar className="w-5 h-5" />,
+      icon: <GrWorkshop className="w-5 h-5" />,
       label: "Lab",
-      links: [{ to: "/lab", icon: <FaClipboardList />, label: "View Lab" }],
+      links: [{ to: "/lab", icon: <FaUsersViewfinder />, label: "View Lab" }],
     },
   ];
 
@@ -106,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
           className={linkClass}
           onClick={() => setIsOpen?.(false)}
         >
-          <FaBell className="w-6 h-6" /> Timetable
+          <GrSchedules className="w-6 h-6" /> Timetable
         </NavLink>
 
         {/* Dropdown menus */}
