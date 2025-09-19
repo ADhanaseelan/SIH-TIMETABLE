@@ -13,6 +13,7 @@ import AddSubject from "./pages/AddSubject";
 import SubjectList from "./pages/SubjectList";
 import ViewTable from "./pages/view_table";
 import Login from "./Login/Login";
+import api from "./service/api";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -23,19 +24,11 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:3000/protected", {
-          method: "GET",
-          credentials: "include",
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setUser({ username: data.user.username, role: data.user.role });
-          console.log("Username:", data.user.username);
-          console.log("Role:", data.user.role);
-        } else {
-          setUser(null);
-          console.log("No valid token found");
-        }
+        const res = await api.get("/protected"); // axios call
+        // your backend returns: { user: {username, role} }
+        setUser({ username: res.data.user.username, role: res.data.user.role });
+        console.log("Username:", res.data.user.username);
+        console.log("Role:", res.data.user.role);
       } catch (err) {
         console.error("Error fetching user:", err);
         setUser(null);
