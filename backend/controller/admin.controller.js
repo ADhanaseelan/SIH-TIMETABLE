@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 // Imports from the database
-const pool = require("./db");
+const pool = require("../db/db");
 
 // Login for admin
 const verifyLogin = async (req, res) => {
