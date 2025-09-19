@@ -31,16 +31,21 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
 
-  const toggleMenu = (menu: string) => {
-    setOpenMenus((prev) => ({
-      ...prev,
-      [menu]: !prev[menu],
-    }));
+   const toggleMenu = (menu: string) => {
+    setOpenMenus((prev) => {
+    
+      if (prev[menu]) {
+        return { [menu]: false };
+      }
+    
+      return { [menu]: true };
+    });
   };
+
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 px-2 py-2 rounded-lg transition-all ${
-      isActive ? "bg-gray-600 text-white" : "text-gray-300 hover:bg-gray-700"
+      isActive ? "bg-[#203C8A] text-white" : "text-gray-300 hover:bg-blue-700"
     }`;
 
   const menuItemClass =
@@ -103,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   return (
     <aside
       className={`
-        bg-gray-800 text-white h-full flex flex-col  transition-all duration-300
+        bg-[#203C8A] text-white h-full flex flex-col  transition-all duration-300
         ${isOpen ? "w-60" : "w-0 overflow-hidden"}
         md:w-60 md:static md:overflow-visible
       `}

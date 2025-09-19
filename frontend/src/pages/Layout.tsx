@@ -41,7 +41,7 @@ const Layout: React.FC = () => {
       {/* Overlay for mobile */}
       {isMobile && isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40"
+          className="fixed inset-0 bg-blue-300 bg-opacity-40 z-40"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
