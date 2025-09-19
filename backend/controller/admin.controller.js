@@ -53,4 +53,7 @@ const verifyLogin = async (req, res) => {
   }
 };
 
-module.exports = { verifyLogin };
+// Adding the staff
+const addStaff = async (req, res) => {};
+
+module.exports = { verifyLogin, addStaff };
