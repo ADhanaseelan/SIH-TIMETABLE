@@ -24,7 +24,10 @@ const Login: React.FC = () => {
     }
 
     try {
-      const res = await api.post("/admin/login", { username, password });
+      const res = await api.post("/admin/login", {
+        username: username.trim(),
+        password: password.trim(),
+      });
 
       if (res.status === 200) {
         window.location.reload();
@@ -57,6 +60,7 @@ const Login: React.FC = () => {
           className="bg-transparent p-10 w-full max-w-sm flex flex-col items-center"
         >
           <h2 className="text-white text-2xl font-bold mb-6">Login Page</h2>
+
           <div className="w-full flex flex-col items-center gap-5 mb-4">
             <label className="w-full text-left text-lg font-bold text-white">
               Username :
@@ -65,11 +69,12 @@ const Login: React.FC = () => {
               type="text"
               placeholder="Enter username"
               value={username}
-              onChange={(e) => setUsername(e.target.value.toUpperCase())}
-              className="w-full p-2 rounded"
+              onChange={(e) => setUsername(e.target.value.trim())}
+              className="w-full p-2 rounded border border-gray-300 focus:border-[#003366] focus:ring focus:ring-[#003366]/20 outline-none"
               required
             />
           </div>
+
           <div className="w-full flex flex-col items-center gap-5 mb-4">
             <label className="w-full text-left text-lg font-bold text-white">
               Password :
@@ -78,11 +83,12 @@ const Login: React.FC = () => {
               type="password"
               placeholder="Enter password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 rounded"
+              onChange={(e) => setPassword(e.target.value.trim())}
+              className="w-full p-2 rounded border border-gray-300 focus:border-[#003366] focus:ring focus:ring-[#003366]/20 outline-none"
               required
             />
           </div>
+
           <button
             type="submit"
             className="bg-white text-[#003366] font-bold text-lg py-2 px-8 rounded mt-6 w-3/5"
