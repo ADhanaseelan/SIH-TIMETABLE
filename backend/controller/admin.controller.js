@@ -4,6 +4,10 @@ const jwt = require("jsonwebtoken");
 // Imports from the database
 const pool = require("../db/db");
 
+// JWT Scerate key
+const jwt_key =
+  "36c5f515e773048ddb6ae7df26b407b4f683ca3ac5e68ec640c262154c0573d269fb907b0e559571a0be6db01450bd3f84cc689fb9e1f250ddb9b43e3ed454d8";
+
 // Login for admin
 const verifyLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -21,7 +25,7 @@ const verifyLogin = async (req, res) => {
 
       const token = jwt.sign(
         { username: user.username, role: user.role },
-        "your_secret_key",
+        jwt_key,
         { expiresIn: "1h" }
       );
 

@@ -1,93 +1,94 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../styles/Login.css';
-import NEC from '../assets/nandha logo (1).svg';
+// Packages
+import React, { useState } from "react";
 
-interface LoginProps {
-  onLoginSuccess: (userEmail: string, userRole: string) => void;
-}
+// Components
+import { ToastContainer, toast } from "react-toastify";
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+// CSS
+import "react-toastify/dist/ReactToastify.css";
+
+// Service
+import api from "../service/api";
+
+// Function
+const Login: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!username || !password) {
-      toast.error('❌ Please enter both username and password.');
+      toast.error("Please enter both username and password.");
       return;
     }
-  
+
     try {
-      const response = await fetch('http://localhost:7244/api/Login/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const res = await api.post("/admin/login", { username, password });
 
-      if (response.ok) {
-        const data = await response.json();
-        const loggedInUsername = data.username || username;
-        localStorage.setItem('loggedUser', loggedInUsername);
-
-        toast.success('✅ Login successful!');
-        onLoginSuccess(loggedInUsername, data.role);
-      } else if (response.status === 401) {
-        toast.error('❌ Incorrect username or password.');
+      if (res.status === 200) {
+        window.location.reload();
+      } else if (res.status === 401) {
+        toast.error("Incorrect username or password.");
       } else {
-        toast.error('⚠️ Login failed. Please try again.');
+        toast.error("Login failed. Please try again.");
       }
-    } catch (error) {
-      toast.error('🚫 Server error. Please try again later.');
-      console.error('Login error:', error);
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        toast.error("Incorrect username or password.");
+      } else {
+        toast.error("Server error. Please try again later.");
+      }
+      console.error(err);
     }
   };
 
   return (
-    <div className="login-page">
-      {/* ✅ Toast Container with right side and no auto-close */}
-      <ToastContainer
-        position="top-right"
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="light"
-      />
-
-      <div className="login-left">
-        <img src={NEC} alt="Nandha Engineering College Logo" className="logo-image" />
-        <p className="logo-text">NANDHA ENGINEERING COLLEGE</p>
+    <div className="flex h-screen font-poppins">
+      <ToastContainer position="top-right" theme="light" />
+      <div className="flex-1 bg-white flex flex-col justify-center items-center">
+        <p className="text-3xl font-bold text-center text-[#003366] mb-4">
+          NANDHA ENGINEERING COLLEGE
+        </p>
       </div>
-
-      <div className="login-right">
-        <form onSubmit={handleSubmit} className="login-form">
-          <h2 className="login-label">Login Page</h2>
-          <div className="user-name">
-            <label>Username :</label>
+      <div className="flex-1 bg-[#003366] flex justify-center items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-transparent p-10 w-full max-w-sm flex flex-col items-center"
+        >
+          <h2 className="text-white text-2xl font-bold mb-6">Login Page</h2>
+          <div className="w-full flex flex-col items-center gap-5 mb-4">
+            <label className="w-full text-left text-lg font-bold text-white">
+              Username :
+            </label>
             <input
               type="text"
               placeholder="Enter username"
               value={username}
               onChange={(e) => setUsername(e.target.value.toUpperCase())}
+              className="w-full p-2 rounded"
               required
             />
           </div>
-          <div className="pass-word">
-            <label>Password :</label>
+          <div className="w-full flex flex-col items-center gap-5 mb-4">
+            <label className="w-full text-left text-lg font-bold text-white">
+              Password :
+            </label>
             <input
               type="password"
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 rounded"
               required
             />
           </div>
-          <button type="submit">LOGIN</button>
+          <button
+            type="submit"
+            className="bg-white text-[#003366] font-bold text-lg py-2 px-8 rounded mt-6 w-3/5"
+          >
+            LOGIN
+          </button>
         </form>
       </div>
     </div>

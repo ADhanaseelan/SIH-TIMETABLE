@@ -3,8 +3,11 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-// Imports from folder
+// Imports from routes folder
 const router = require("./router/admin.routes");
+
+// Imports the authenticate the folder
+const { checkAuth } = require("./middleware/auth.middleware");
 
 const app = express();
 
@@ -19,5 +22,7 @@ app.use(
     credentials: true,
   })
 );
+
+app.get("/protected", checkAuth);
 
 app.listen(3000, () => console.log("Running on 3000"));
