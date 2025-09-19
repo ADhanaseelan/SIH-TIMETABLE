@@ -28,10 +28,7 @@ const App: React.FC = () => {
       try {
         const res = await api.get("/protected");
         setUser({ username: res.data.user.username, role: res.data.user.role });
-        console.log("Username:", res.data.user.username);
-        console.log("Role:", res.data.user.role);
       } catch (err) {
-        console.error("Error fetching user:", err);
         setUser(null);
       } finally {
         setLoading(false);
