@@ -24,8 +24,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get("/protected"); // axios call
-        // your backend returns: { user: {username, role} }
+        const res = await api.get("/protected");
         setUser({ username: res.data.user.username, role: res.data.user.role });
         console.log("Username:", res.data.user.username);
         console.log("Role:", res.data.user.role);
