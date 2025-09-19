@@ -1,9 +1,38 @@
 import React, { useState } from "react";
 import { SearchBox } from "../Components/Shared/Component";
+import ViewTable from "../Components/Shared/ViewTable";
 
 const StaffList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Sample staff data
+  const staffData = [
+    {
+      Name: "John Doe",
+      Position: "Professor",
+      Email: "john.doe@example.com",
+      Phone: "123-456-7890",
+    },
+    {
+      Name: "Jane Smith",
+      Position: "Assistant Professor",
+      Email: "jane.smith@example.com",
+      Phone: "987-654-3210",
+    },
+    {
+      Name: "Mark Johnson",
+      Position: "Lecturer",
+      Email: "mark.johnson@example.com",
+      Phone: "555-111-2222",
+    },
+  ];
+
+  // Filter logic
+  const filteredRows = staffData.filter((row) =>
+    Object.values(row).some((val) =>
+      val.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
   return (
     <div className="p-6">
@@ -23,7 +52,12 @@ const StaffList: React.FC = () => {
         </div>
       </div>
 
-     
+      {/* Table */}
+      <ViewTable
+        columns={["Name", "Position", "Email", "Phone"]}
+        colWidths={["w-40", "w-32", "w-48", "w-32"]}
+        initialRows={filteredRows}
+      />
     </div>
   );
 };

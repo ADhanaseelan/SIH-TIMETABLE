@@ -33,12 +33,12 @@ const AddTable: React.FC<AddTableProps> = ({ columns, colWidths }) => {
   return (
     <div className="p-4">
       {/* Header with Add button */}
-      <div className="flex justify-end items-center mb-3">
+      <div className="flex justify-end items-center mb-3 ">
         <button
           onClick={handleAddRow}
-          className="flex items-center gap-2 bg-[#203C8A] text-white px-3 py-1 rounded hover:bg-blue-700"
+          className="flex items-center gap-2 bg-[#203C8A] text-white px-3 py-3 rounded hover:bg-blue-700"
         >
-          <FaPlus /> Add Row
+          <FaPlus /> 
         </button>
       </div>
 
@@ -49,7 +49,7 @@ const AddTable: React.FC<AddTableProps> = ({ columns, colWidths }) => {
           <thead className="bg-[#203C8A] text-white">
             <tr>
               {/* SI. No column */}
-              <th className="w-12 px-2 py-2 text-center font-semibold border-4 border-white">
+              <th className="w-12 h-20 text-center font-semibold border-4 border-white">
                 SI. No
               </th>
 
@@ -86,10 +86,10 @@ const AddTable: React.FC<AddTableProps> = ({ columns, colWidths }) => {
               rows.map((row, rowIndex) => (
                 <tr
                   key={rowIndex}
-                  className="bg-[#F3F3F3] hover:bg-gray-50 text-[15px] font-medium whitespace-nowrap"
+                  className="bg-[#e7e6e6]  text-[15px] font-medium whitespace-nowrap"
                 >
                   {/* SI. No cell */}
-                  <td className="w-12 px-2 py-2 text-center border-4 border-white">
+                  <td className="w-12 h-15 text-center border-6 border-white">
                     {rowIndex + 1}
                   </td>
 
@@ -97,7 +97,7 @@ const AddTable: React.FC<AddTableProps> = ({ columns, colWidths }) => {
                   {columns.map((col, colIndex) => {
                     const w = colWidths?.[colIndex] ?? "w-24";
                     return (
-                      <td key={colIndex} className={`${w} border-4 border-white`}>
+                      <td key={colIndex} className={`${w} border-6 border-white`}>
                         <input
                           type="text"
                           value={row[col]}
@@ -115,7 +115,7 @@ const AddTable: React.FC<AddTableProps> = ({ columns, colWidths }) => {
                     <button
                       onClick={() => handleRemoveRow(rowIndex)}
                       title="Remove row"
-                      className="text-white bg-red-600 hover:bg-white hover:text-red-600 p-1 rounded-full transition"
+                      className="text-white bg-red-600 hover:bg-red-800 p-1 rounded-full transition"
                     >
                       <FaTimes />
                     </button>

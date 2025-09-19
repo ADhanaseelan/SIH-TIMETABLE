@@ -14,7 +14,7 @@ const AddStaff: React.FC = () => {
 
      
       <p className="font-bold">New List</p>
-        <AddTable columns={[ "Staff Id", "Staff Name","Qualification", "Phone Number"]} />
+        <AddTable columns={[ "Staff Id", "Staff Name","Subject 1", "Subject 2 " , "Subject 3"]} />
 
       
     </div>

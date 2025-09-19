@@ -4,7 +4,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "timetable",
-  password: "123456789",
+  password: "12345",
   port: 5432,
   connectionTimeoutMillis: 2000,
 });
