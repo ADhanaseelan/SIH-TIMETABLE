@@ -3,17 +3,13 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-// Imports from routes folder
+// Folders for the router
 const router = require("./router/admin.routes");
 
-// Imports the authenticate the folder
+// Folders for the middleware
 const { checkAuth } = require("./middleware/auth.middleware");
 
 const app = express();
-
-app.use(express.json());
-app.use(cookieParser());
-app.use("/admin", router);
 
 app.use(
   cors({
@@ -22,6 +18,18 @@ app.use(
   })
 );
 
-app.get("/protected", checkAuth);
+app.use(express.json());
+app.use(cookieParser());
+
+app.use("/admin", router);
+app.get("/protected", checkAuth, (req, res) => {
+  res.json({
+    success: true,
+    user: {
+      username: req.user.username,
+      role: req.user.role,
+    },
+  });
+});
 
 app.listen(3000, () => console.log("Running on 3000"));
