@@ -6,6 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import ProtectedRoute from "./service/ProtectedRoute";
+
 import Layout from "./pages/Layout";
 import StaffList from "./pages/staffList";
 import AddStaff from "./pages/AddStaff";
@@ -44,18 +46,62 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {!user && <Route path="*" element={<Login />} />}
-        {user && (
-          <Route path="/" element={<Layout />}>
-            <Route index element={<div>Welcome Home</div>} />
-            <Route path="/department/stafflist" element={<StaffList />} />
-            <Route path="/department/addstaff" element={<AddStaff />} />
-            <Route path="/subjects/addsubject" element={<AddSubject />} />
-            <Route path="/subjects/subjectList" element={<SubjectList />} />
-            <Route path="/viewtimetable/class" element={<ViewTable />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        )}
+        <Route path="/login" element={<Login />} />
+        <Route
+          element={
+            <ProtectedRoute user={user}>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            index
+            element={
+              <div>Welcome {user?.role === "admin" ? "Admin" : "User"}</div>
+            }
+          />
+
+          <Route
+            path="/department/stafflist"
+            element={
+              <ProtectedRoute user={user} allowedRoles={["admin"]}>
+                <StaffList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/department/addstaff"
+            element={
+              <ProtectedRoute user={user} allowedRoles={["admin"]}>
+                <AddStaff />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/subjects/addsubject"
+            element={
+              <ProtectedRoute user={user} allowedRoles={["admin"]}>
+                <AddSubject />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/user/dashboard"
+            element={
+              <ProtectedRoute user={user} allowedRoles={["user"]}>
+                <div>User Dashboard</div>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Shared routes accessible to both */}
+          <Route path="/subjects/subjectList" element={<SubjectList />} />
+          <Route path="/viewtimetable/class" element={<ViewTable />} />
+
+          {/* fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
       </Routes>
     </Router>
   );
